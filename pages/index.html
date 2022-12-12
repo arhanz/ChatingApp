@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.css"
+      integrity="sha512-0Nyh7Nf4sn+T48aTb6VFkhJe0FzzcOlqqZMahy/rhZ8Ii5Q9ZXG/1CbunUuEbfgxqsQfWXjnErKZosDSHVKQhQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body onload="myFunction()">
+    <div class="app" style="display: none" id="app">
+      <div class="screen join-screen active">
+        <div class="form" style="text-align: center;">
+          <h2>Join Chat Room</h2>
+          <div class="form-input">
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter Your Name in Chat"
+            />
+          </div>
+          <div class="imgs">
+            <h3 class="text">PLease Choose Avatar To</h3>
+            <div class="gap-10 grid grid-cols-2 my-2">
+              <img
+                src="./Images/Men-Avatar.png"
+                id="img"
+                alt="Men Avatar"
+                class="cursor-pointer"
+                onclick="HandleMenImg()"
+              />
+              <img
+                src="./Images/Women-Avatar.png"
+                id="img2"
+                alt="Women Avatar"
+                class="cursor-pointer"
+                onclick="HandleWomenImg()"
+              />
+            </div>
+            <p id="text" class="hidden">Selected</p>
+            <input
+              type="file"
+              accept="image/*"
+              onchange="AddYourImg(e)"
+              class="hidden"
+              id="upload-button"
+            />
+            <label for="upload-button" onclick="AddYourAvatar()">
+              <p class="cursor-pointer text" style="margin-left: -60px">
+                Add your avatar
+              </p>
+            </label>
+          </div>
+          <div class="form-input">
+            <button id="join-user" style="margin-left: -20%;">Join</button>
+          </div>
+        </div>
+      </div>
+      <div class="screen chat-screen">
+        <div class="header">
+          <img
+            src="./Images/Men-Avatar.png"
+            alt="Your Avatar"
+            id="img3"
+            style="width: 35px; margin-right: 10px"
+          />
+          <div class="logo">Welcome <span id="logo"></span></div>
+          <button id="call-chat">call</button>
+          <button id="videoCall-chat">video call</button>
+          <button id="exit-chat">Exit</button>
+        </div>
+        <div class="messages"></div>
+        <div class="typebox">
+          <input type="text" id="message-input" />
+          <button id="send-message">Send</button>
+        </div>
+        <div
+          id="calls-popup"
+          style="display: none; position: absolute; margin-top: -200px"
+        >
+          <h1>calls</h1>
+          <ul>
+            <li onclick="alert('calling All')">Call All</li>
+            <li onclick="alert('calling user')">
+              Call <span id="other"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="form">
+      <img class="wave" src="./Images/wave.png">
+      <div class="container">
+        <div class="img">
+          <img src="./Images/bg.svg">
+        </div>
+        <div class="login-content">
+          <div onsubmit="noReload()" style="display: none;" id="otpSection">
+            <img src="./Images/avatar.svg">
+            <h2 class="title" id="title">Welcome</h2>
+            <div class="input-div opt" id="otp-div">
+              <div class="i">
+                <i class="fas fa-key"></i>
+              </div>
+              <div class="div">
+                <input
+                  type="number"
+                  class="input"
+                  id="otp_val"
+                  placeholder="Enter Your OTP..."
+                  required
+                />
+              </div>
+            </div>
+            <button class="btn" id="checkBtn" onclick="VerifyOTP()">Verify OTP</button>
+          </div>
+          <div onsubmit="noReload()" id="emailSection">
+            <img src="./Images/avatar.svg">
+            <h2 class="title" id="title">Welcome</h2>
+            <div class="input-div opt" id="otp-div">
+              <div class="i">
+                <i class="fas fa-key"></i>
+              </div>
+              <div class="div">
+                <input
+                  type="email"
+                  class="input"
+                  id="email_val"
+                  placeholder="Enter Your Email"
+                  required
+                />
+              </div>
+            </div>
+            <button class="btn" id="checkBtn" onclick="VerifyEmail()">Verify Email</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="CounterDiv" style="display: none;">
+      <h1 style="margin-top: 140%;">Please Wait <span id="counter" style="margin-left: 10px;"></span></h1>
+    </div>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.js"
+      integrity="sha512-aGWPnmdBhJ0leVHhQaRASgb0InV/Z2BWsscdj1Vwt29Oic91wECPixuXsWESpFfCcYPLfOlBZzN2nqQdMxlGTQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      $("#message-input").emojioneArea();
+    </script>
+    <script src="code.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script>
+var email = document.getElementById("email_val");
+var OTP = Math.floor(Math.random() * 10000);
+function VerifyEmail() {
+  Email.send({
+    Host: "smtp.elasticemail.com",
+    Username: "arhaanzeeshan13@gmail.com",
+    Password: "CA80B3DEC3E5488745F9B95217176B0C1C50",
+    To: email.value,
+    From: "arhaanzeeshan13@gmail.com",
+    Subject: "This is the subject",
+    Body: `Your OTP is ${OTP}`
+  }).then((message) =>{
+    alert("PLease Check Your Email For OTP...")
+    document.getElementById("emailSection").style.display="none";
+    document.getElementById("otpSection").style.display="block";
+  });
+}
+var otp_val = document.getElementById("otp_val");
+function VerifyOTP() {
+  if (otp_val.value == OTP) {
+    document.getElementById("form").style.display = "none";
+    document.getElementById("CounterDiv").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("counter").innerText = 1;
+      document.getElementById("counter").style.color = "red";
+    }, 0);
+    setTimeout(() => {
+      document.getElementById("counter").innerText = 2;
+      document.getElementById("counter").style.color = "yellow";
+    }, 1000);
+    setTimeout(() => {
+      document.getElementById("counter").innerText = 3;
+      document.getElementById("counter").style.color = "#38d39f";
+    }, 2000);
+    setTimeout(() => {
+      document.getElementById("form").style.display = "none";
+      document.getElementById("app").style.display = "block";
+    }, 2500);
+  } else if (otp_val.value == "") {
+    alert("Please Enter OTP");
+  } else {
+    alert("Invalid OTP");
+  }
+}
+    </script>
+  </body>
+</html>
