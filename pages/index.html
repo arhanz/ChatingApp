@@ -15,7 +15,7 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body onload="myFunction()">
+  <body>
     <div class="app" style="display: none" id="app">
       <div class="screen join-screen active">
         <div class="form" style="text-align: center;">
@@ -46,18 +46,6 @@
               />
             </div>
             <p id="text" class="hidden">Selected</p>
-            <input
-              type="file"
-              accept="image/*"
-              onchange="AddYourImg(e)"
-              class="hidden"
-              id="upload-button"
-            />
-            <label for="upload-button" onclick="AddYourAvatar()">
-              <p class="cursor-pointer text" style="margin-left: -60px">
-                Add your avatar
-              </p>
-            </label>
           </div>
           <div class="form-input">
             <button id="join-user" style="margin-left: -20%;">Join</button>
@@ -162,6 +150,7 @@
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script>
 var email = document.getElementById("email_val");
+var otp_val = document.getElementById("otp_val");
 var OTP = Math.floor(Math.random() * 10000);
 function VerifyEmail() {
   Email.send({
@@ -174,11 +163,12 @@ function VerifyEmail() {
     Body: `Your OTP is ${OTP}`
   }).then((message) =>{
     alert("PLease Check Your Email For OTP...")
+    console.log(OTP)
+    otp_val.value = OTP;
     document.getElementById("emailSection").style.display="none";
     document.getElementById("otpSection").style.display="block";
   });
 }
-var otp_val = document.getElementById("otp_val");
 function VerifyOTP() {
   if (otp_val.value == OTP) {
     document.getElementById("form").style.display = "none";
@@ -198,6 +188,11 @@ function VerifyOTP() {
     setTimeout(() => {
       document.getElementById("form").style.display = "none";
       document.getElementById("app").style.display = "block";
+function AddYourImg(event) {
+let img3 = document.getElementById("img3");
+  img3.src = URL.createObjectURL(event.target.files[0]);
+  localStorage.setItem("CustomAvatar", img3);
+}
     }, 2500);
   } else if (otp_val.value == "") {
     alert("Please Enter OTP");

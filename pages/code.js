@@ -1,5 +1,4 @@
-(function () {
-  const app = document.querySelector(".app");
+const app = document.querySelector(".app");
   const socket = io();
 
   let uname;
@@ -114,7 +113,6 @@
   call.addEventListener("click", () => {
     document.getElementById("calls-popup").style.display = "block";
   });
-})();
 
 function HandleMenImg() {
   document.getElementById("text").style.position = "absolute";
@@ -127,16 +125,7 @@ function HandleMenImg() {
   img3.src = document.getElementById("img").src;
 
   localStorage.removeItem("WomenImg");
-  toast.success("Men Image Selected", {
-    position: "top-left",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light"
-  });
+  alert("Men Image Selected")
 }
 function HandleWomenImg() {
   document.getElementById("text").style.position = "absolute";
@@ -148,16 +137,7 @@ function HandleWomenImg() {
   localStorage.setItem("WomenImg", "wowen image is here");
   img3.src = document.getElementById("img2").src;
   localStorage.removeItem("MenImg");
-  toast.success("Women Image Selected", {
-    position: "top-left",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light"
-  });
+  alert("Women Image Selected")
 }
 function AddYourAvatar() {
   localStorage.removeItem("MenImg");
@@ -191,8 +171,4 @@ inputs.forEach((input) => {
 
 var img3 = document.getElementById("img3");
 
-function AddYourImg(e) {
-  img3.src = URL.createObjectURL(e.target.files[0]);
-  localStorage.setItem("CustomAvatar", img3);
-}
 }
