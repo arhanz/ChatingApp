@@ -3,11 +3,13 @@
     padding: 0px;
     box-sizing: border-box;
 }
-body {
-    font-family: "Roboto",sans-serif;
+body{
     height: 100vh;
     display: flex;
+    align-items: center;
     justify-content: center;
+    overflow: hidden;
+    font-family: sans-serif;
 }
 .app {
     position: fixed;
@@ -99,9 +101,10 @@ margin-right: 20px;
     display: flex;
     padding: 10px;   
 }
-.chat-screen .messages .message{
+.chat-screen .messages .message > div{
+max-width: 80%;
 background: #fff;
-box-shadow: 0xp 0xp 20px 5px rgba(0,0,0,0.05);
+box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.05);
 padding: 10px;
 }
 .chat-screen .messages .message.my-message {
@@ -162,7 +165,7 @@ font-size: 18px;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
-.text{
+.texthus{
     text-align: center;
     font-weight: bold;
     font-size: 1.25rem;
@@ -408,7 +411,6 @@ a:hover{
 	font-size: 1.2rem;
 	color: #fff;
 	font-family: 'Poppins', sans-serif;
-	text-transform: uppercase;
 	margin: 1rem 0;
 	cursor: pointer;
 	transition: .5s;
@@ -458,4 +460,102 @@ a:hover{
 }
 .otpverify{
     display: none;
+}
+
+.toast{
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 20px 35px 20px 25px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    border-left: 6px solid #e74c3c;
+    overflow: hidden;
+    transform: translateX(calc(100% + 30px));
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+}
+
+.toast.active{
+    transform: translateX(0%);
+}
+
+.toast .toast-content{
+    display: flex;
+    align-items: center;
+}
+
+.toast-content .check{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    background-color: #e74c3c;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.toast-content .messageblah{
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.messageblah .textblah{
+    font-size: 20px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.messageblah .textblah.text-1{
+    font-weight: 600;
+    font-family: sans-serif;
+    color: #333;
+}
+.messageblah .textblah.text-2{
+    font-family: sans-serif;
+}
+
+.toast .close{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.toast .close:hover{
+    opacity: 1;
+}
+
+.toast .progress{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: #ddd;
+}
+
+.toast .progress:before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #e74c3c;
+}
+
+.progress.active:before{
+    animation: progress 3s linear forwards;
+}
+
+@keyframes progress {
+    100%{
+        right: 100%;
+    }
 }

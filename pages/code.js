@@ -112,6 +112,10 @@ const app = document.querySelector(".app");
   let call = document.getElementById("call-chat");
   call.addEventListener("click", () => {
     document.getElementById("calls-popup").style.display = "block";
+    document.getElementById("checkUsers").innerHTML = `
+    <h3>All Users</h3>
+    <li>${message.username}</li>
+    `;
   });
 
 function HandleMenImg() {
@@ -123,9 +127,7 @@ function HandleMenImg() {
   document.getElementById("img2").style.opacity = "1";
   localStorage.setItem("MenImg", "men image is here");
   img3.src = document.getElementById("img").src;
-
   localStorage.removeItem("WomenImg");
-  alert("Men Image Selected")
 }
 function HandleWomenImg() {
   document.getElementById("text").style.position = "absolute";
@@ -136,39 +138,5 @@ function HandleWomenImg() {
   document.getElementById("img2").style.opacity = "0.8";
   localStorage.setItem("WomenImg", "wowen image is here");
   img3.src = document.getElementById("img2").src;
-  localStorage.removeItem("MenImg");
-  alert("Women Image Selected")
-}
-function AddYourAvatar() {
-  localStorage.removeItem("MenImg");
-  localStorage.removeItem("WomenImg");
-  document.getElementById("text").style.display = "none";
-  document.getElementById("img").style.opacity = "1";
-  document.getElementById("img2").style.opacity = "1";
-
-
-function myFunction() {
-  localStorage.clear();
-}
-const inputs = document.querySelectorAll(".input");
-
-function addcl() {
-  let parent = this.parentNode.parentNode;
-  parent.classList.add("focus");
-}
-
-function remcl() {
-  let parent = this.parentNode.parentNode;
-  if (this.value == "") {
-    parent.classList.remove("focus");
-  }
-}
-
-inputs.forEach((input) => {
-  input.addEventListener("focus", addcl);
-  input.addEventListener("blur", remcl);
-});
-
-var img3 = document.getElementById("img3");
-
+  localStorage.removeItem("MenImg");  
 }

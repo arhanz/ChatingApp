@@ -14,11 +14,15 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
   </head>
-  <body>
+  <body onload="noReload()">
     <div class="app" style="display: none" id="app">
       <div class="screen join-screen active">
-        <div class="form" style="text-align: center;">
+        <div class="form" style="text-align: center">
           <h2>Join Chat Room</h2>
           <div class="form-input">
             <input
@@ -28,7 +32,7 @@
             />
           </div>
           <div class="imgs">
-            <h3 class="text">PLease Choose Avatar To</h3>
+            <h3 class="texthus">PLease Choose Avatar To</h3>
             <div class="gap-10 grid grid-cols-2 my-2">
               <img
                 src="./Images/Men-Avatar.png"
@@ -48,7 +52,7 @@
             <p id="text" class="hidden">Selected</p>
           </div>
           <div class="form-input">
-            <button id="join-user" style="margin-left: -20%;">Join</button>
+            <button id="join-user" style="margin-left: -20%">Join</button>
           </div>
         </div>
       </div>
@@ -76,23 +80,21 @@
         >
           <h1>calls</h1>
           <ul>
-            <li onclick="alert('calling All')">Call All</li>
-            <li onclick="alert('calling user')">
-              Call <span id="other"></span>
-            </li>
+            <li>Call All</li>
+            <li>Call User</li>
           </ul>
         </div>
       </div>
     </div>
     <div id="form">
-      <img class="wave" src="./Images/wave.png">
+      <img class="wave" src="./Images/wave.png" />
       <div class="container">
         <div class="img">
-          <img src="./Images/bg.svg">
+          <img src="./Images/bg.svg" />
         </div>
         <div class="login-content">
-          <div onsubmit="noReload()" style="display: none;" id="otpSection">
-            <img src="./Images/avatar.svg">
+          <div onsubmit="noReload()" style="display: none" id="otpSection">
+            <img src="./Images/avatar.svg" />
             <h2 class="title" id="title">Welcome</h2>
             <div class="input-div opt" id="otp-div">
               <div class="i">
@@ -108,10 +110,12 @@
                 />
               </div>
             </div>
-            <button class="btn" id="checkBtn" onclick="VerifyOTP()">Verify OTP</button>
+            <button class="btn" id="checkBtn" onclick="VerifyOTP()">
+              Verify OTP
+            </button>
           </div>
           <div onsubmit="noReload()" id="emailSection">
-            <img src="./Images/avatar.svg">
+            <img src="./Images/avatar.svg" />
             <h2 class="title" id="title">Welcome</h2>
             <div class="input-div opt" id="otp-div">
               <div class="i">
@@ -127,13 +131,31 @@
                 />
               </div>
             </div>
-            <button class="btn" id="checkBtn" onclick="VerifyEmail()">Verify Email</button>
+            <button class="btn" id="checkBtn" onclick="VerifyEmail()">
+              Verify Email
+            </button>
+            
+    <div class="toast">
+      <div class="toast-content">
+          <i class="fas fa-solid fa-xmark check"></i>
+
+          <div class="messageblah">
+              <span class="textblah text-1">Error</span>
+              <span class="textblah text-2">Please Enter Your Email For OTP</span>
+          </div>
+      </div>
+      <i class="fa-solid fa-xmark close" onclick="Close()"></i>
+
+      <div class="progress"></div>
+  </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="CounterDiv" style="display: none;">
-      <h1 style="margin-top: 140%;">Please Wait <span id="counter" style="margin-left: 10px;"></span></h1>
+    <div id="CounterDiv" style="display: none">
+      <h1 style="margin-top: 140%">
+        Please Wait <span id="counter" style="margin-left: 10px"></span>
+      </h1>
     </div>
     <script src="socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -149,57 +171,101 @@
     <script src="code.js"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script>
-var email = document.getElementById("email_val");
-var otp_val = document.getElementById("otp_val");
-var OTP = Math.floor(Math.random() * 10000);
-function VerifyEmail() {
-  Email.send({
-    Host: "smtp.elasticemail.com",
-    Username: "arhaanzeeshan13@gmail.com",
-    Password: "CA80B3DEC3E5488745F9B95217176B0C1C50",
-    To: email.value,
-    From: "arhaanzeeshan13@gmail.com",
-    Subject: "This is the subject",
-    Body: `Your OTP is ${OTP}`
-  }).then((message) =>{
-    alert("PLease Check Your Email For OTP...")
-    console.log(OTP)
-    otp_val.value = OTP;
-    document.getElementById("emailSection").style.display="none";
-    document.getElementById("otpSection").style.display="block";
-  });
-}
-function VerifyOTP() {
-  if (otp_val.value == OTP) {
-    document.getElementById("form").style.display = "none";
-    document.getElementById("CounterDiv").style.display = "block";
-    setTimeout(() => {
-      document.getElementById("counter").innerText = 1;
-      document.getElementById("counter").style.color = "red";
-    }, 0);
-    setTimeout(() => {
-      document.getElementById("counter").innerText = 2;
-      document.getElementById("counter").style.color = "yellow";
-    }, 1000);
-    setTimeout(() => {
-      document.getElementById("counter").innerText = 3;
-      document.getElementById("counter").style.color = "#38d39f";
-    }, 2000);
-    setTimeout(() => {
-      document.getElementById("form").style.display = "none";
-      document.getElementById("app").style.display = "block";
-function AddYourImg(event) {
-let img3 = document.getElementById("img3");
-  img3.src = URL.createObjectURL(event.target.files[0]);
-  localStorage.setItem("CustomAvatar", img3);
-}
-    }, 2500);
-  } else if (otp_val.value == "") {
-    alert("Please Enter OTP");
-  } else {
-    alert("Invalid OTP");
-  }
-}
+      var email = document.getElementById("email_val");
+      var otp_val = document.getElementById("otp_val");
+      var OTP = Math.floor(Math.random() * 10000);
+     var toast = document.querySelector(".toast"),
+      progress = document.querySelector(".progress");
+      var toast2 = document.querySelector(".toast2"),
+      progress2 = document.querySelector(".progress2");
+
+      let timer1, timer2;
+      let timer12, timer22;
+      function VerifyEmail() {
+        if (email.value == "") {
+        toast.classList.add("active");
+        progress.classList.add("active");
+
+        timer1 = setTimeout(() => {
+            toast.classList.remove("active");
+        }, 3000); //1s = 1000 milliseconds
+
+        timer2 = setTimeout(() => {
+          progress.classList.remove("active");
+        }, 3300);
+        } else {
+          Email.send({
+            Host: "smtp.elasticemail.com",
+            Username: "arhaanzeeshan13@gmail.com",
+            Password: "CA80B3DEC3E5488745F9B95217176B0C1C50",
+            To: email.value,
+            From: "arhaanzeeshan13@gmail.com",
+            Subject: "This is the subject",
+            Body: `Your OTP is ${OTP}`
+          }).then((message) => {
+            alert("please Check Your Email For OTP");
+            // console.log(OTP);
+            // otp_val.value = OTP;
+            document.getElementById("emailSection").style.display = "none";
+            document.getElementById("otpSection").style.display = "block";
+          });
+        }
+      }
+      if(localStorage.getItem("OTP")){
+            document.getElementById("form").style.display = "none";
+            document.getElementById("app").style.display = "block";
+      }
+      function Close(){
+        toast.classList.remove("active");
+        
+        setTimeout(() => {
+          progress.classList.remove("active");
+        }, 300);
+
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      }
+      function Close22(){
+        toast.classList.remove("active2");
+        
+        setTimeout(() => {
+          progress2.classList.remove("active2");
+        }, 300);
+
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      }
+      function VerifyOTP() {
+        if (otp_val.value == OTP) {
+            localStorage.setItem("OTP", OTP);
+          document.getElementById("form").style.display = "none";
+          document.getElementById("CounterDiv").style.display = "block";
+          setTimeout(() => {
+            document.getElementById("counter").innerText = 1;
+            document.getElementById("counter").style.color = "red";
+          }, 0);
+          setTimeout(() => {
+            document.getElementById("counter").innerText = 2;
+            document.getElementById("counter").style.color = "yellow";
+          }, 1000);
+          setTimeout(() => {
+            document.getElementById("counter").innerText = 3;
+            document.getElementById("counter").style.color = "#38d39f";
+          }, 2000);
+          setTimeout(() => {
+            document.getElementById("form").style.display = "none";
+            document.getElementById("app").style.display = "block";
+          }, 2500);
+        } else if (otp_val.value == "") {
+          alert("Please Enter OTP");
+        } else {
+          alert("Invalid OTP");
+        }
+      }
+      function noReload(){
+        localStorage.removeItem("MenImg");
+        localStorage.removeItem("WomenImg");
+      }
     </script>
   </body>
 </html>
