@@ -19,9 +19,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
   </head>
-  <body onload="noReload()">
+  <body onload="onReload()">
     <div class="app" style="display: none" id="app">
       <div class="screen join-screen active">
+        <h3 class="texthus" style="float: right; margin-right: 20px;cursor: pointer;" title="Click To Log Out" onclick="logOutFunc()">Log Out</h3>
         <div class="form" style="text-align: center">
           <h2>Join Chat Room</h2>
           <div class="form-input">
@@ -262,9 +263,13 @@
           alert("Invalid OTP");
         }
       }
-      function noReload(){
+      function onReload(){
         localStorage.removeItem("MenImg");
         localStorage.removeItem("WomenImg");
+      }
+      function logOutFunc(){
+        localStorage.removeItem("OTP");
+        location.reload();
       }
     </script>
   </body>
