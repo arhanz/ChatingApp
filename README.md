@@ -1,2 +1,2 @@
-# Messenger-App
- This is a Messenger App For Assignment
+# Chating App
+ This is a Chating App For Assignment
